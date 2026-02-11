@@ -65,7 +65,7 @@ export default function Dial({ value, onChange, label, appColor }: Props) {
   const level = getDialLevel(value);
 
   return (
-    <div className="flex flex-col items-center gap-3">
+    <div className="flex flex-col items-center gap-2">
       <h3 className="text-[11px] font-mono tracking-widest uppercase font-medium" style={{ color: '#5a5a78' }}>
         AI Dial
       </h3>

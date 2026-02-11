@@ -53,7 +53,7 @@ export default function App() {
   }, []);
 
   return (
-    <div className="h-screen flex flex-col relative" style={{ background: '#0a0a14', color: '#e0e0f0' }}>
+    <div className="min-h-screen flex flex-col relative" style={{ background: '#0a0a14', color: '#e0e0f0' }}>
       {loading && <SplashScreen onComplete={handleSplashComplete} />}
 
       {/* Ambient glow */}
@@ -65,7 +65,7 @@ export default function App() {
         }}
       />
 
-      <div className="relative z-10 flex flex-col h-full">
+      <div className="relative z-10 flex flex-col flex-1">
         <Header onReplayTour={handleReplayTour} />
         <HeroBanner />
         <div data-tour="app-switcher">
@@ -73,10 +73,10 @@ export default function App() {
         </div>
 
         {/* MAIN 3-COLUMN GRID */}
-        <div className="flex-1 min-h-0 grid grid-cols-[440px_1fr_340px] gap-6 p-6">
+        <div className="flex-1 grid gap-5 p-5" style={{ gridTemplateColumns: 'minmax(320px, 1.1fr) minmax(300px, 1.6fr) minmax(260px, 1fr)' }}>
 
           {/* LEFT: Grid (top) + Macro (bottom) */}
-          <div className="flex flex-col gap-4 min-h-0">
+          <div className="flex flex-col gap-3">
             {/* Panel label */}
             <span className="text-[11px] font-mono" style={{ color: '#4a4a68', paddingLeft: 4 }}>
               These 9 buttons appear on your physical MX Creative Console
@@ -84,7 +84,7 @@ export default function App() {
             {/* Console Grid — content-sized */}
             <div
               data-tour="button-grid"
-              className="rounded-2xl p-6 shrink-0"
+              className="rounded-2xl p-5 shrink-0"
               style={{ background: '#12122a', border: '1px solid #2a2a4a' }}
             >
               <ConsoleGrid app={activeApp} activeButton={activeButton} onButtonClick={setActiveButton} />
@@ -93,8 +93,8 @@ export default function App() {
             {/* Macro Chain — fills remaining left space */}
             <div
               data-tour="macro-chain"
-              className="rounded-2xl p-6 flex-1 min-h-0 overflow-hidden"
-              style={{ background: '#12122a', border: '1px solid #2a2a4a' }}
+              className="rounded-2xl p-5 flex-1 overflow-hidden"
+              style={{ background: '#12122a', border: '1px solid #2a2a4a', minHeight: 260 }}
             >
               <MacroChain
                 appColor={activeApp.color}
@@ -104,12 +104,12 @@ export default function App() {
           </div>
 
           {/* CENTER: Output Preview (HERO) */}
-          <div className="flex flex-col gap-4 min-h-0">
+          <div className="flex flex-col gap-3">
             {/* Panel label */}
             <span className="text-[11px] font-mono" style={{ color: '#4a4a68', paddingLeft: 4 }}>
               Result appears in your active app
             </span>
-            <div data-tour="output-panel" className="min-h-0 flex-1">
+            <div data-tour="output-panel" className="flex-1" style={{ minHeight: 400 }}>
               <OutputPreview
                 appId={activeApp.id}
                 appColor={activeApp.color}
@@ -120,7 +120,7 @@ export default function App() {
           </div>
 
           {/* RIGHT: Dial (top) + Ring (bottom) */}
-          <div className="flex flex-col gap-4 min-h-0">
+          <div className="flex flex-col gap-3">
             {/* Panel label */}
             <span className="text-[11px] font-mono" style={{ color: '#4a4a68', paddingLeft: 4 }}>
               Physical dial on the console
@@ -128,7 +128,7 @@ export default function App() {
             {/* Dial — content-sized */}
             <div
               data-tour="dial-panel"
-              className="rounded-2xl p-6 flex items-center justify-center shrink-0"
+              className="rounded-2xl p-4 flex items-center justify-center shrink-0"
               style={{ background: '#12122a', border: '1px solid #2a2a4a' }}
             >
               <Dial
@@ -142,8 +142,8 @@ export default function App() {
             {/* Actions Ring — fills remaining right space */}
             <div
               data-tour="actions-ring"
-              className="rounded-2xl p-6 flex-1 min-h-0 overflow-hidden"
-              style={{ background: '#12122a', border: '1px solid #2a2a4a' }}
+              className="rounded-2xl p-4 flex-1 overflow-hidden"
+              style={{ background: '#12122a', border: '1px solid #2a2a4a', minHeight: 320 }}
             >
               <ActionsRing
                 appColor={activeApp.color}

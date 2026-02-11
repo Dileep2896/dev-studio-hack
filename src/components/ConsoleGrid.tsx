@@ -26,7 +26,7 @@ export default function ConsoleGrid({ app, activeButton, onButtonClick }: Props)
   return (
     <div className="flex flex-col">
       {/* Header */}
-      <div className="flex items-center justify-between" style={{ marginBottom: 16 }}>
+      <div className="flex items-center justify-between" style={{ marginBottom: 12 }}>
         <h3 className="text-[12px] font-mono tracking-widest uppercase font-medium" style={{ color: '#5a5a78' }}>
           MX Creative Console
         </h3>

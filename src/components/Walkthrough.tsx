@@ -82,6 +82,20 @@ export default function Walkthrough({ active, onComplete }: Props) {
     }
   }, [currentStep]);
 
+  // Scroll the target element into view when step changes
+  useEffect(() => {
+    if (!active || !visible) return;
+    const step = steps[currentStep];
+    if (!step) return;
+    const el = document.querySelector(`[data-tour="${step.target}"]`);
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      // Re-measure after scroll settles
+      const t = setTimeout(measure, 400);
+      return () => clearTimeout(t);
+    }
+  }, [active, visible, currentStep, measure]);
+
   // Fade in on activate
   useEffect(() => {
     if (active) {
