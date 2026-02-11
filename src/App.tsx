@@ -12,6 +12,7 @@ import MacroChain from './components/MacroChain';
 import OutputPreview from './components/OutputPreview';
 import ToastContainer from './components/Toast';
 import Walkthrough from './components/Walkthrough';
+import ScreenshotGallery from './components/ScreenshotGallery';
 
 export default function App() {
   const [activeApp, setActiveApp] = useState<AppConfig>(apps[0]);
@@ -20,6 +21,7 @@ export default function App() {
   const [loading, setLoading] = useState(true);
   const [tourActive, setTourActive] = useState(false);
   const [tourDone, setTourDone] = useState(false);
+  const [galleryOpen, setGalleryOpen] = useState(false);
   const { toasts, addToast } = useToast();
 
   // After splash completes, start tour after a short delay
@@ -66,7 +68,7 @@ export default function App() {
       />
 
       <div className="relative z-10 flex flex-col flex-1">
-        <Header onReplayTour={handleReplayTour} />
+        <Header onReplayTour={handleReplayTour} onOpenGallery={() => setGalleryOpen(true)} />
         <HeroBanner />
         <div data-tour="app-switcher">
           <AppSwitcher activeApp={activeApp} onSwitch={handleAppSwitch} />
@@ -156,6 +158,7 @@ export default function App() {
 
       <ToastContainer toasts={toasts} />
       <Walkthrough active={tourActive} onComplete={handleTourComplete} />
+      <ScreenshotGallery open={galleryOpen} onClose={() => setGalleryOpen(false)} />
     </div>
   );
 }
