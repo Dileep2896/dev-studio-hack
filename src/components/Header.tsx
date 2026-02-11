@@ -4,10 +4,9 @@ import ConsoleHardware from './ConsoleHardware';
 
 interface Props {
   onReplayTour: () => void;
-  onOpenGallery: () => void;
 }
 
-export default function Header({ onReplayTour, onOpenGallery }: Props) {
+export default function Header({ onReplayTour }: Props) {
   const [actionsCount, setActionsCount] = useState(47);
 
   useEffect(() => {
@@ -54,32 +53,6 @@ export default function Header({ onReplayTour, onOpenGallery }: Props) {
             CONNECTED
           </span>
         </div>
-        <button
-          onClick={onOpenGallery}
-          title="View screenshots"
-          style={{
-            width: 28,
-            height: 28,
-            borderRadius: '50%',
-            background: '#222240',
-            border: '1px solid #333350',
-            color: '#8888A8',
-            fontSize: 13,
-            cursor: 'pointer',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            transition: 'border-color 0.2s',
-          }}
-          onMouseEnter={(e) => { e.currentTarget.style.borderColor = '#6C63FF'; }}
-          onMouseLeave={(e) => { e.currentTarget.style.borderColor = '#333350'; }}
-        >
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <rect x="3" y="3" width="18" height="18" rx="2" />
-            <circle cx="8.5" cy="8.5" r="1.5" />
-            <path d="m21 15-5-5L5 21" />
-          </svg>
-        </button>
         <button
           onClick={onReplayTour}
           title="Replay guided tour"
