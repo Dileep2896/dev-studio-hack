@@ -54,6 +54,51 @@ export default function App() {
 
   return (
     <div className="min-h-screen flex flex-col relative" style={{ background: '#0a0a14', color: '#e0e0f0' }}>
+      {/* Mobile/Tablet gate */}
+      <div
+        className="fixed inset-0 z-[99999] flex flex-col items-center justify-center p-8 text-center lg:hidden"
+        style={{ background: '#0a0a14' }}
+      >
+        <div
+          style={{
+            width: 64,
+            height: 64,
+            borderRadius: 16,
+            background: 'linear-gradient(135deg, #6C63FF, #4F46E5)',
+            boxShadow: '0 8px 32px rgba(108, 99, 255, 0.4)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            marginBottom: 24,
+          }}
+        >
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <rect x="2" y="3" width="20" height="14" rx="2" />
+            <line x1="8" y1="21" x2="16" y2="21" />
+            <line x1="12" y1="17" x2="12" y2="21" />
+          </svg>
+        </div>
+        <h2 style={{ fontSize: 22, fontWeight: 700, color: '#fff', marginBottom: 8 }}>
+          Desktop Experience Only
+        </h2>
+        <p style={{ fontSize: 14, color: '#7a7a98', lineHeight: 1.6, maxWidth: 320 }}>
+          PromptDeck is an interactive demo built for the Logitech MX Creative Console.
+          Please open this on a desktop browser for the full experience.
+        </p>
+        <a
+          href="https://dev-studio-hack.vercel.app"
+          style={{
+            marginTop: 24,
+            fontSize: 12,
+            color: '#6C63FF',
+            fontFamily: 'monospace',
+            letterSpacing: '0.05em',
+          }}
+        >
+          dev-studio-hack.vercel.app
+        </a>
+      </div>
+
       {loading && <SplashScreen onComplete={handleSplashComplete} />}
 
       {/* Ambient glow */}

@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#6C63FF"/>
+      <stop offset="100%" stop-color="#4F46E5"/>
+    </linearGradient>
+    <linearGradient id="shine" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="rgba(255,255,255,0.15)"/>
+      <stop offset="50%" stop-color="rgba(255,255,255,0)"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="shadow">
+      <feDropShadow dx="0" dy="8" stdDeviation="24" flood-color="#6C63FF" flood-opacity="0.35"/>
+    </filter>
+  </defs>
+
+  <!-- Background rounded square -->
+  <rect x="16" y="16" width="480" height="480" rx="96" fill="url(#bg)" filter="url(#shadow)"/>
+
+  <!-- Shine overlay -->
+  <rect x="16" y="16" width="480" height="480" rx="96" fill="url(#shine)"/>
+
+  <!-- 3x3 grid of dots -->
+  <!-- Row 1 -->
+  <rect x="148" y="148" width="56" height="56" rx="14" fill="rgba(255,255,255,0.9)" filter="url(#glow)"/>
+  <rect x="228" y="148" width="56" height="56" rx="14" fill="rgba(255,255,255,0.25)" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+  <rect x="308" y="148" width="56" height="56" rx="14" fill="rgba(255,255,255,0.25)" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+
+  <!-- Row 2 -->
+  <rect x="148" y="228" width="56" height="56" rx="14" fill="rgba(255,255,255,0.25)" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+  <rect x="228" y="228" width="56" height="56" rx="14" fill="rgba(255,255,255,0.9)" filter="url(#glow)"/>
+  <rect x="308" y="228" width="56" height="56" rx="14" fill="rgba(255,255,255,0.25)" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+
+  <!-- Row 3 -->
+  <rect x="148" y="308" width="56" height="56" rx="14" fill="rgba(255,255,255,0.25)" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+  <rect x="228" y="308" width="56" height="56" rx="14" fill="rgba(255,255,255,0.25)" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+  <rect x="308" y="308" width="56" height="56" rx="14" fill="rgba(255,255,255,0.9)" filter="url(#glow)"/>
+</svg>
