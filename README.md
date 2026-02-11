@@ -6,6 +6,8 @@ Every app on your desktop just got an AI upgrade — at your fingertips.
 
 > Logitech MX Creative Console x MX Master4 Actions Ring x Actions SDK
 
+**[Live Demo](https://dev-studio-hack.vercel.app)**
+
 ## Pitch Deck
 
 [View the full pitch (PDF)](public/PromptDeck_Pitch.pdf)
