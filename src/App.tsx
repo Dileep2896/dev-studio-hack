@@ -12,6 +12,7 @@ import MacroChain from './components/MacroChain';
 import OutputPreview from './components/OutputPreview';
 import ToastContainer from './components/Toast';
 import Walkthrough from './components/Walkthrough';
+import { Analytics } from '@vercel/analytics/react';
 
 export default function App() {
   const [activeApp, setActiveApp] = useState<AppConfig>(apps[0]);
@@ -201,6 +202,7 @@ export default function App() {
 
       <ToastContainer toasts={toasts} />
       <Walkthrough active={tourActive} onComplete={handleTourComplete} />
+      <Analytics />
     </div>
   );
 }
