@@ -1,7 +1,12 @@
 import { useState, useEffect } from 'react';
 import Logo from './Logo';
+import ConsoleHardware from './ConsoleHardware';
 
-export default function Header() {
+interface Props {
+  onReplayTour: () => void;
+}
+
+export default function Header({ onReplayTour }: Props) {
   const [actionsCount, setActionsCount] = useState(47);
 
   useEffect(() => {
@@ -25,7 +30,11 @@ export default function Header() {
           </p>
         </div>
       </div>
-      <div className="flex items-center" style={{ gap: 28 }}>
+      <div className="flex items-center" style={{ gap: 20 }}>
+        <div className="flex items-center" style={{ gap: 10, padding: '4px 12px', borderRadius: 8, background: '#12122a', border: '1px solid #2a2a4a' }}>
+          <ConsoleHardware />
+          <span className="text-[11px] font-mono" style={{ color: '#5a5a78' }}>MX Creative Console</span>
+        </div>
         <span className="text-[13px]" style={{ color: '#5a5a78' }}>
           AI Actions Today:{' '}
           <span className="font-mono font-semibold" style={{ color: '#00D4AA' }}>
@@ -44,6 +53,29 @@ export default function Header() {
             CONNECTED
           </span>
         </div>
+        <button
+          onClick={onReplayTour}
+          title="Replay guided tour"
+          style={{
+            width: 28,
+            height: 28,
+            borderRadius: '50%',
+            background: '#222240',
+            border: '1px solid #333350',
+            color: '#8888A8',
+            fontSize: 14,
+            fontWeight: 700,
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            transition: 'border-color 0.2s',
+          }}
+          onMouseEnter={(e) => { e.currentTarget.style.borderColor = '#6C63FF'; }}
+          onMouseLeave={(e) => { e.currentTarget.style.borderColor = '#333350'; }}
+        >
+          ?
+        </button>
       </div>
     </header>
   );

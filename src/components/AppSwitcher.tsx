@@ -18,13 +18,14 @@ export default function AppSwitcher({ activeApp, onSwitch }: Props) {
             <button
               key={app.id}
               onClick={() => onSwitch(app)}
-              className="rounded-lg text-[13px] font-medium transition-all duration-200 cursor-pointer flex items-center"
+              className="rounded-lg text-[13px] font-medium cursor-pointer flex items-center"
               style={{
                 padding: '6px 14px',
                 gap: 8,
                 background: isActive ? `${app.color}18` : 'transparent',
                 border: `1px solid ${isActive ? `${app.color}50` : '#2a2a4a'}`,
                 color: isActive ? app.color : '#5a5a78',
+                transition: 'all 0.35s cubic-bezier(0.16, 1, 0.3, 1)',
               }}
             >
               <span className="text-[15px] leading-none">{app.icon}</span>

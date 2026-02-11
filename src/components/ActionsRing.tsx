@@ -15,35 +15,53 @@ export default function ActionsRing({ appColor, onActivate }: Props) {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-full gap-3">
+    <div className="flex flex-col items-center justify-center h-full" style={{ gap: 16 }}>
       <h3 className="text-[11px] font-mono tracking-widest uppercase font-medium" style={{ color: '#5a5a78' }}>
-        Actions Ring
+        MX Master4 Actions Ring
       </h3>
 
       <button
         onClick={handleClick}
         className="relative cursor-pointer"
-        style={{ width: 100, height: 100, background: 'transparent', border: 'none' }}
+        style={{ width: 140, height: 140, background: 'transparent', border: 'none' }}
       >
         {/* Outer ring */}
         <div
           className="absolute inset-0 rounded-full transition-all duration-500"
           style={{
             border: `3px solid ${isSpinning ? appColor : '#1e1e3a'}`,
-            boxShadow: isSpinning ? `0 0 30px ${appColor}40, 0 0 60px ${appColor}15` : 'none',
+            boxShadow: isSpinning ? `0 0 40px ${appColor}40, 0 0 80px ${appColor}15` : 'none',
             transform: isSpinning ? 'rotate(120deg)' : 'rotate(0deg)',
           }}
         />
+        {/* Tick marks */}
+        {[0, 45, 90, 135, 180, 225, 270, 315].map((deg) => (
+          <div
+            key={deg}
+            className="absolute"
+            style={{
+              width: 2,
+              height: 8,
+              background: isSpinning ? appColor : '#2a2a4a',
+              borderRadius: 1,
+              top: '50%',
+              left: '50%',
+              transformOrigin: '50% 0',
+              transform: `translate(-50%, -70px) rotate(${deg}deg)`,
+              transition: 'background 0.3s',
+            }}
+          />
+        ))}
         {/* Inner ring */}
         <div
           className="absolute rounded-full flex items-center justify-center transition-all duration-300"
           style={{
-            inset: 16,
+            inset: 22,
             background: isSpinning ? `${appColor}10` : '#0e0e1e',
             border: `2px solid ${isSpinning ? appColor : '#1e1e3a'}`,
           }}
         >
-          <span className="text-xl">{isSpinning ? '\u2728' : '\uD83D\uDDB1\uFE0F'}</span>
+          <span className="text-2xl">{isSpinning ? '\u2728' : '\uD83D\uDDB1\uFE0F'}</span>
         </div>
         {/* Ping stays inside the button bounds */}
         {isSpinning && (
@@ -54,13 +72,31 @@ export default function ActionsRing({ appColor, onActivate }: Props) {
         )}
       </button>
 
-      <div className="flex flex-col items-center gap-1">
-        <span className="text-[11px] font-mono font-medium" style={{ color: `${appColor}90` }}>
-          MX Master4
+      <div className="flex flex-col items-center" style={{ gap: 8 }}>
+        <span className="text-[12px] font-mono font-semibold" style={{ color: appColor }}>
+          MX Master4 Ring
         </span>
-        <span className="text-[10px] font-mono" style={{ color: '#3a3a55' }}>
-          Select &rarr; Twist &rarr; AI
+        <span className="text-[12px] font-mono leading-relaxed text-center" style={{ color: '#6a6a88', maxWidth: 220 }}>
+          Select any text, twist the ring to trigger AI actions
         </span>
+      </div>
+
+      <div className="flex items-center" style={{ gap: 16, marginTop: 4 }}>
+        {['Summarize', 'Rewrite', 'Translate'].map((action) => (
+          <span
+            key={action}
+            className="text-[10px] font-mono uppercase tracking-wider"
+            style={{
+              padding: '4px 10px',
+              borderRadius: 6,
+              background: `${appColor}08`,
+              border: `1px solid ${appColor}25`,
+              color: `${appColor}90`,
+            }}
+          >
+            {action}
+          </span>
+        ))}
       </div>
     </div>
   );

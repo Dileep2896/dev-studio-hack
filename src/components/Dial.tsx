@@ -1,4 +1,4 @@
-import { useRef, useCallback, useEffect } from 'react';
+import { useRef, useCallback, useEffect, useState } from 'react';
 import { getDialLevel } from '../data/outputs';
 
 interface Props {
@@ -11,10 +11,18 @@ interface Props {
 export default function Dial({ value, onChange, label, appColor }: Props) {
   const dragging = useRef(false);
   const lastY = useRef(0);
+  const valueRef = useRef(value);
+  const onChangeRef = useRef(onChange);
+  const [isDragging, setIsDragging] = useState(false);
+
+  // Keep refs in sync
+  valueRef.current = value;
+  onChangeRef.current = onChange;
 
   const handleMouseDown = useCallback((e: React.MouseEvent) => {
     dragging.current = true;
     lastY.current = e.clientY;
+    setIsDragging(true);
     e.preventDefault();
   }, []);
 
@@ -23,16 +31,22 @@ export default function Dial({ value, onChange, label, appColor }: Props) {
       if (!dragging.current) return;
       const delta = lastY.current - e.clientY;
       lastY.current = e.clientY;
-      onChange(Math.max(0, Math.min(100, value + delta * 0.5)));
+      const newVal = Math.max(0, Math.min(100, valueRef.current + delta * 0.5));
+      onChangeRef.current(newVal);
     };
-    const onUp = () => { dragging.current = false; };
+    const onUp = () => {
+      if (dragging.current) {
+        dragging.current = false;
+        setIsDragging(false);
+      }
+    };
     window.addEventListener('mousemove', onMove);
     window.addEventListener('mouseup', onUp);
     return () => {
       window.removeEventListener('mousemove', onMove);
       window.removeEventListener('mouseup', onUp);
     };
-  }, [value, onChange]);
+  }, []);
 
   const handleWheel = useCallback(
     (e: React.WheelEvent) => {
@@ -60,7 +74,7 @@ export default function Dial({ value, onChange, label, appColor }: Props) {
         className="relative"
         onMouseDown={handleMouseDown}
         onWheel={handleWheel}
-        style={{ cursor: 'grab', userSelect: 'none' }}
+        style={{ cursor: isDragging ? 'grabbing' : 'grab', userSelect: 'none' }}
       >
         <svg width={size} height={size} className="transform -rotate-90">
           <circle cx={center} cy={center} r={radius} fill="none" stroke="#0e0e1e" strokeWidth={strokeW} />
@@ -69,8 +83,11 @@ export default function Dial({ value, onChange, label, appColor }: Props) {
             fill="none" stroke={appColor} strokeWidth={strokeW}
             strokeLinecap="round"
             strokeDasharray={circ} strokeDashoffset={offset}
-            className="transition-all duration-150"
-            style={{ filter: `drop-shadow(0 0 8px ${appColor}60)` }}
+            style={{
+              transition: isDragging ? 'none' : 'stroke-dashoffset 0.3s ease-out, stroke 0.3s',
+              filter: `drop-shadow(0 0 8px ${appColor}60)`,
+              willChange: isDragging ? 'stroke-dashoffset' : 'auto',
+            }}
           />
         </svg>
         <div className="absolute inset-0 flex flex-col items-center justify-center">

@@ -18,7 +18,7 @@ export default function ConsoleGrid({ app, activeButton, onButtonClick }: Props)
       const timer = setTimeout(() => {
         setVisible(true);
         prevAppRef.current = app.id;
-      }, 200);
+      }, 250);
       return () => clearTimeout(timer);
     }
   }, [app.id]);
@@ -30,7 +30,10 @@ export default function ConsoleGrid({ app, activeButton, onButtonClick }: Props)
         <h3 className="text-[12px] font-mono tracking-widest uppercase font-medium" style={{ color: '#5a5a78' }}>
           MX Creative Console
         </h3>
-        <span className="text-[12px] font-mono tracking-wider uppercase font-medium" style={{ color: app.color }}>
+        <span
+          className="text-[12px] font-mono tracking-wider uppercase font-medium"
+          style={{ color: app.color, transition: 'color 0.4s ease' }}
+        >
           9 buttons
         </span>
       </div>
@@ -43,32 +46,13 @@ export default function ConsoleGrid({ app, activeButton, onButtonClick }: Props)
             button={button}
             isActive={activeButton === i}
             appColor={app.color}
-            animDelay={i * 60}
+            animDelay={i * 50}
             isVisible={visible}
             onClick={() => onButtonClick(i)}
           />
         ))}
       </div>
 
-      {/* Description */}
-      {activeButton >= 0 && (
-        <div
-          className="rounded-xl text-[13px] leading-relaxed transition-all duration-300"
-          style={{
-            marginTop: 16,
-            padding: '12px 16px',
-            background: `${app.color}08`,
-            borderLeft: `3px solid ${app.color}40`,
-            color: '#8888a8',
-          }}
-        >
-          <span className="font-semibold" style={{ color: '#e0e0f0' }}>
-            {app.buttons[activeButton]?.label}
-          </span>
-          {' \u2014 '}
-          {app.buttons[activeButton]?.description}
-        </div>
-      )}
     </div>
   );
 }
