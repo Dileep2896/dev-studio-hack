@@ -56,7 +56,7 @@ export default function App() {
     <div className="min-h-screen flex flex-col relative" style={{ background: '#0a0a14', color: '#e0e0f0' }}>
       {/* Mobile/Tablet gate */}
       <div
-        className="fixed inset-0 z-[99999] flex flex-col items-center justify-center p-8 text-center lg:hidden"
+        className="fixed inset-0 z-[99999] flex flex-col items-center justify-center p-8 text-center xl:hidden"
         style={{ background: '#0a0a14' }}
       >
         <div
