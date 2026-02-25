@@ -13,7 +13,7 @@ const steps: StepConfig[] = [
     target: 'app-switcher',
     title: 'Your Active App',
     description:
-      'PromptDeck detects which app you\u2019re using. Click any app here to simulate switching. Watch how everything on the page changes to match.',
+      'PromptDeck detects which app you\'re using. Click any app here to simulate switching. Watch how everything on the page changes to match.',
     position: 'bottom',
   },
   {
@@ -48,7 +48,7 @@ const steps: StepConfig[] = [
     target: 'macro-chain',
     title: 'One Button Workflows',
     description:
-      'Chain multiple AI steps into a single button press. Hit \u201CRun Macro\u201D to see it in action: capture screen, analyze, generate report, and send to Slack automatically.',
+      'Chain multiple AI steps into a single button press. Hit "Run Macro" to see it in action: capture screen, analyze, generate report, and send to Slack automatically.',
     position: 'right',
   },
 ];

@@ -18,14 +18,20 @@ export default function App() {
   const [activeApp, setActiveApp] = useState<AppConfig>(apps[0]);
   const [activeButton, setActiveButton] = useState(0);
   const [dialValue, setDialValue] = useState(75);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(() => !localStorage.getItem('promptdeck-splash-done'));
   const [tourActive, setTourActive] = useState(false);
-  const [tourDone, setTourDone] = useState(false);
+  const [tourDone, setTourDone] = useState(() => localStorage.getItem('promptdeck-tour-done') === '1');
+  const [actionsCount, setActionsCount] = useState(0);
   const { toasts, addToast } = useToast();
+
+  const incrementActions = useCallback(() => {
+    setActionsCount((c) => c + 1);
+  }, []);
 
   // After splash completes, start tour after a short delay
   const handleSplashComplete = useCallback(() => {
     setLoading(false);
+    localStorage.setItem('promptdeck-splash-done', '1');
   }, []);
 
   useEffect(() => {
@@ -38,6 +44,7 @@ export default function App() {
   const handleTourComplete = useCallback(() => {
     setTourActive(false);
     setTourDone(true);
+    localStorage.setItem('promptdeck-tour-done', '1');
   }, []);
 
   const handleReplayTour = useCallback(() => {
@@ -51,7 +58,28 @@ export default function App() {
 
   const handleDialChange = useCallback((v: number) => {
     setDialValue(v);
-  }, []);
+    incrementActions();
+  }, [incrementActions]);
+
+  const handleButtonClick = useCallback((index: number) => {
+    setActiveButton(index);
+    incrementActions();
+  }, [incrementActions]);
+
+  // Keyboard shortcuts: 1-5 to switch apps
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (tourActive) return;
+      const target = e.target as HTMLElement;
+      if (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA') return;
+      const num = parseInt(e.key);
+      if (num >= 1 && num <= apps.length) {
+        handleAppSwitch(apps[num - 1]);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [tourActive, handleAppSwitch]);
 
   return (
     <div className="min-h-screen flex flex-col relative" style={{ background: '#0a0a14', color: '#e0e0f0' }}>
@@ -86,8 +114,7 @@ export default function App() {
           PromptDeck is an interactive demo built for the Logitech MX Creative Console.
           Please open this on a desktop browser for the full experience.
         </p>
-        <a
-          href="https://dev-studio-hack.vercel.app"
+        <span
           style={{
             marginTop: 24,
             fontSize: 12,
@@ -96,8 +123,8 @@ export default function App() {
             letterSpacing: '0.05em',
           }}
         >
-          dev-studio-hack.vercel.app
-        </a>
+          {window.location.host}
+        </span>
       </div>
 
       {loading && <SplashScreen onComplete={handleSplashComplete} />}
@@ -112,7 +139,7 @@ export default function App() {
       />
 
       <div className="relative z-10 flex flex-col flex-1">
-        <Header onReplayTour={handleReplayTour} />
+        <Header onReplayTour={handleReplayTour} actionsCount={actionsCount} />
         <HeroBanner />
         <div data-tour="app-switcher">
           <AppSwitcher activeApp={activeApp} onSwitch={handleAppSwitch} />
@@ -133,7 +160,7 @@ export default function App() {
               className="rounded-2xl p-5 shrink-0"
               style={{ background: '#12122a', border: '1px solid #2a2a4a' }}
             >
-              <ConsoleGrid app={activeApp} activeButton={activeButton} onButtonClick={setActiveButton} />
+              <ConsoleGrid app={activeApp} activeButton={activeButton} onButtonClick={handleButtonClick} />
             </div>
 
             {/* Macro Chain — fills remaining left space */}
@@ -144,7 +171,7 @@ export default function App() {
             >
               <MacroChain
                 appColor={activeApp.color}
-                onComplete={() => addToast('\u2705 Macro complete \u2014 report sent to #design-feedback')}
+                onComplete={() => { incrementActions(); addToast('Macro complete - report sent to #design-feedback'); }}
               />
             </div>
           </div>
@@ -193,7 +220,7 @@ export default function App() {
             >
               <ActionsRing
                 appColor={activeApp.color}
-                onActivate={() => addToast('\u2728 AI action triggered on selected content')}
+                onActivate={() => { incrementActions(); addToast('AI action triggered on selected content'); }}
               />
             </div>
           </div>

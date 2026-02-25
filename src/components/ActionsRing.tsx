@@ -61,7 +61,7 @@ export default function ActionsRing({ appColor, onActivate }: Props) {
             border: `2px solid ${isSpinning ? appColor : '#1e1e3a'}`,
           }}
         >
-          <span className="text-xl">{isSpinning ? '\u2728' : '\uD83D\uDDB1\uFE0F'}</span>
+          <span className="text-sm font-mono font-bold" style={{ color: isSpinning ? appColor : '#5a5a78' }}>{isSpinning ? '* *' : 'MX'}</span>
         </div>
         {/* Ping stays inside the button bounds */}
         {isSpinning && (

@@ -6,10 +6,10 @@ interface Props {
 }
 
 const steps = [
-  { icon: '\uD83D\uDCF8', label: 'Capture Screen' },
-  { icon: '\uD83E\uDDE0', label: 'AI Analyze' },
-  { icon: '\uD83D\uDCDD', label: 'Generate Report' },
-  { icon: '\uD83D\uDCE4', label: 'Send to Slack' },
+  { icon: '[ ]', label: 'Capture Screen' },
+  { icon: 'AI', label: 'AI Analyze' },
+  { icon: 'Rp', label: 'Generate Report' },
+  { icon: '>>', label: 'Send to Slack' },
 ];
 
 export default function MacroChain({ appColor, onComplete }: Props) {

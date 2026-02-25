@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+html, body {
+  background: #0a0a14;
+}
+
 body {
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -8,6 +12,13 @@ body {
 
 .font-mono {
   font-family: 'JetBrains Mono', 'Fira Code', monospace;
+}
+
+/* Focus rings for keyboard navigation */
+*:focus-visible {
+  outline: 2px solid #6C63FF;
+  outline-offset: 2px;
+  border-radius: 4px;
 }
 
 /* Scrollbar */

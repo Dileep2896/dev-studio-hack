@@ -210,7 +210,7 @@ export default function SplashScreen({ onComplete }: Props) {
           transition: 'opacity 0.3s ease',
         }}
       >
-        {phase >= 4 ? 'Ready' : 'Connecting to MX Console\u2026'}
+        {phase >= 4 ? 'Ready' : 'Connecting to MX Console...'}
       </p>
     </div>
   );

@@ -1,20 +1,59 @@
-import { useState, useEffect } from 'react';
 import Logo from './Logo';
 import ConsoleHardware from './ConsoleHardware';
 
 interface Props {
   onReplayTour: () => void;
+  actionsCount: number;
 }
 
-export default function Header({ onReplayTour }: Props) {
-  const [actionsCount, setActionsCount] = useState(47);
+function formatTimeSaved(actions: number): string {
+  // ~45 seconds saved per AI action vs manual copy-paste workflow
+  const totalSeconds = actions * 45;
+  const mins = Math.floor(totalSeconds / 60);
+  const secs = totalSeconds % 60;
+  if (mins === 0) return `${secs}s`;
+  return `${mins}m ${secs}s`;
+}
 
-  useEffect(() => {
-    const interval = setInterval(() => setActionsCount((c) => c + 1), 8000);
-    return () => clearInterval(interval);
-  }, []);
+export default function Header({ onReplayTour, actionsCount }: Props) {
 
   return (
+    <>
+    {/* Prototype banner — sticky */}
+    <div
+      className="flex items-center justify-center"
+      style={{
+        position: 'sticky',
+        top: 0,
+        zIndex: 50,
+        padding: '6px 16px',
+        background: 'linear-gradient(90deg, #6C63FF22, #00D4AA18, #6C63FF22)',
+        backdropFilter: 'blur(12px)',
+        WebkitBackdropFilter: 'blur(12px)',
+        borderBottom: '1px solid #6C63FF33',
+        gap: 8,
+      }}
+    >
+      <span
+        style={{
+          display: 'inline-block',
+          padding: '2px 8px',
+          borderRadius: 4,
+          background: '#6C63FF',
+          color: '#fff',
+          fontSize: 10,
+          fontWeight: 700,
+          letterSpacing: '0.08em',
+          textTransform: 'uppercase',
+          lineHeight: '16px',
+        }}
+      >
+        Prototype
+      </span>
+      <span className="text-[12px]" style={{ color: '#9a9ab8' }}>
+        This is an interactive demo - the full product is currently being built.
+      </span>
+    </div>
     <header
       className="flex items-center justify-between shrink-0"
       style={{ height: 72, padding: '0 28px', borderBottom: '1px solid #2a2a4a', background: '#0a0a14' }}
@@ -44,7 +83,7 @@ export default function Header({ onReplayTour }: Props) {
         <span className="text-[13px]" style={{ color: '#5a5a78' }}>
           Time Saved:{' '}
           <span className="font-mono font-semibold" style={{ color: '#00D4AA' }}>
-            2h 14m
+            {formatTimeSaved(actionsCount)}
           </span>
         </span>
         <div className="flex items-center" style={{ gap: 8 }}>
@@ -78,5 +117,6 @@ export default function Header({ onReplayTour }: Props) {
         </button>
       </div>
     </header>
+    </>
   );
 }

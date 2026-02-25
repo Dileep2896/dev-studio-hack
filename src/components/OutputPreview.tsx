@@ -1,5 +1,5 @@
-import { useState, useEffect, useRef } from 'react';
-import { getOutput, getDialLevel } from '../data/outputs';
+import { useState, useEffect, useRef, useMemo } from 'react';
+import { getCachedOutputs, loadAppOutputs, getOutput, getDialLevel } from '../data/outputs';
 
 interface Props {
   appId: string;
@@ -11,26 +11,31 @@ interface Props {
 export default function OutputPreview({ appId, appColor, buttonIndex, dialValue }: Props) {
   const [displayedText, setDisplayedText] = useState('');
   const [isTyping, setIsTyping] = useState(false);
-  const [fadingOut, setFadingOut] = useState(false);
-  const prevKeyRef = useRef('');
   const typingRef = useRef<ReturnType<typeof setTimeout>>(undefined);
+  const mountRef = useRef(0);
 
-  const fullText = getOutput(appId, buttonIndex, dialValue);
   const level = getDialLevel(dialValue);
   const key = `${appId}-${buttonIndex}-${level}`;
 
-  useEffect(() => {
-    if (key === prevKeyRef.current) return;
-    prevKeyRef.current = key;
-    if (typingRef.current) clearTimeout(typingRef.current);
+  // Try to get the text synchronously from cache
+  const cachedText = useMemo(() => {
+    const cached = getCachedOutputs(appId);
+    if (cached) return getOutput(cached, buttonIndex, appId, dialValue);
+    return null;
+  }, [key, appId, buttonIndex, dialValue]);
 
-    setFadingOut(true);
-    setTimeout(() => {
-      setDisplayedText('');
-      setFadingOut(false);
+  useEffect(() => {
+    const mountId = ++mountRef.current;
+    if (typingRef.current) clearTimeout(typingRef.current);
+    setDisplayedText('');
+    setIsTyping(false);
+
+    const runTyping = (fullText: string) => {
+      if (mountRef.current !== mountId) return;
       setIsTyping(true);
       let i = 0;
       const typeChar = () => {
+        if (mountRef.current !== mountId) return;
         if (i < fullText.length) {
           const chunk = Math.min(3, fullText.length - i);
           setDisplayedText(fullText.slice(0, i + chunk));
@@ -41,12 +46,24 @@ export default function OutputPreview({ appId, appColor, buttonIndex, dialValue 
         }
       };
       typeChar();
-    }, 200);
+    };
+
+    if (cachedText !== null) {
+      // Sync path: start typing immediately
+      runTyping(cachedText);
+    } else {
+      // Async path: load then type
+      loadAppOutputs(appId).then((appOutputs) => {
+        if (mountRef.current !== mountId) return;
+        const fullText = getOutput(appOutputs, buttonIndex, appId, dialValue);
+        runTyping(fullText);
+      });
+    }
 
     return () => {
       if (typingRef.current) clearTimeout(typingRef.current);
     };
-  }, [key, fullText]);
+  }, [key, appId, buttonIndex, dialValue, cachedText]);
 
   return (
     <div
@@ -73,15 +90,15 @@ export default function OutputPreview({ appId, appColor, buttonIndex, dialValue 
           }}
         />
         <span className="text-[13px] font-mono" style={{ color: '#5a5a78' }}>
-          AI Output &mdash;{' '}
+          AI Output -{' '}
           <span style={{ color: appColor }}>{level}</span>
         </span>
       </div>
 
       {/* Terminal body */}
       <div
-        className="flex-1 overflow-y-auto min-h-0 transition-opacity duration-200"
-        style={{ opacity: fadingOut ? 0 : 1, background: '#0a0a1a', padding: 24 }}
+        className="flex-1 overflow-y-auto min-h-0"
+        style={{ background: '#0a0a1a', padding: 24 }}
       >
         <pre
           className="font-mono whitespace-pre-wrap"
