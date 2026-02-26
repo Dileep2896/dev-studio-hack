@@ -1,0 +1,31 @@
+flowchart LR
+    subgraph DIAL["AI Dial (0-100)"]
+        MIN["Minimal<br/>0 - 33"]
+        MID["Balanced<br/>34 - 66"]
+        MAX["Maximum<br/>67 - 100"]
+    end
+
+    subgraph APPS["x 5 Apps"]
+        A1["VS Code"]
+        A2["Chrome"]
+        A3["Figma"]
+        A4["Slack"]
+        A5["Excel"]
+    end
+
+    subgraph BUTTONS["x 9 Buttons Each"]
+        B["45 Unique<br/>AI Actions"]
+    end
+
+    subgraph OUTPUTS["= 135 Unique Outputs"]
+        O["2,141 Lines<br/>of Domain-Specific<br/>AI Content"]
+    end
+
+    DIAL --> APPS
+    APPS --> BUTTONS
+    BUTTONS --> OUTPUTS
+
+    style DIAL fill:#1a1a2e,stroke:#fbbf24,stroke-width:2px,color:#e2e8f0
+    style APPS fill:#1a1a2e,stroke:#6C63FF,stroke-width:2px,color:#e2e8f0
+    style BUTTONS fill:#1a1a2e,stroke:#60a5fa,stroke-width:2px,color:#e2e8f0
+    style OUTPUTS fill:#1a1a2e,stroke:#00D4AA,stroke-width:2px,color:#e2e8f0

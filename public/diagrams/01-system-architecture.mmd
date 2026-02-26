@@ -1,0 +1,50 @@
+flowchart TB
+    subgraph HW["LOGITECH HARDWARE"]
+        direction LR
+        BTN["9 Smart Buttons<br/><i>MX Creative Console</i>"]
+        DIAL["AI Dial<br/><i>Continuous 0-100</i>"]
+        RING["Actions Ring<br/><i>MX Master4</i>"]
+    end
+
+    subgraph LOGI["LOGI OPTIONS+"]
+        PROF["Per-App Profiles<br/><i>Auto-switch on app focus</i>"]
+    end
+
+    subgraph PLUGIN["ACTIONS SDK PLUGIN - C# / .NET"]
+        direction LR
+        ACTIONS["45 Action Definitions<br/><i>9 per app x 5 apps</i>"]
+        DMAP["Dial Mapping<br/><i>Rotate to AI params</i>"]
+        RTRIG["Ring Trigger<br/><i>Universal AI invoke</i>"]
+    end
+
+    subgraph ROUTER["AI ROUTER SERVICE - Node.js"]
+        WS["WebSocket Server"]
+        ROUTE["Task-Based Routing"]
+    end
+
+    subgraph AI["AI MODELS"]
+        direction LR
+        CLAUDE["Claude API"]
+        OPENAI["OpenAI API"]
+        LOCAL["Local LLMs"]
+    end
+
+    subgraph OUTPUT["OUTPUT"]
+        direction LR
+        RESULT["AI Response"]
+        DETAIL["Dial-Controlled<br/>Detail Level"]
+        MACRO["Macro Chain<br/>Automation"]
+    end
+
+    HW --> LOGI
+    LOGI --> PLUGIN
+    PLUGIN -- "WebSocket" --> ROUTER
+    ROUTER --> AI
+    AI --> OUTPUT
+
+    style HW fill:#1a1a2e,stroke:#6C63FF,stroke-width:2px,color:#e2e8f0
+    style LOGI fill:#1a1a2e,stroke:#fbbf24,stroke-width:2px,color:#e2e8f0
+    style PLUGIN fill:#1a1a2e,stroke:#6C63FF,stroke-width:2px,color:#e2e8f0
+    style ROUTER fill:#1a1a2e,stroke:#60a5fa,stroke-width:2px,color:#e2e8f0
+    style AI fill:#1a1a2e,stroke:#00D4AA,stroke-width:2px,color:#e2e8f0
+    style OUTPUT fill:#1a1a2e,stroke:#f472b6,stroke-width:2px,color:#e2e8f0

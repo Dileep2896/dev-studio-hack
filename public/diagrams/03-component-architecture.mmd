@@ -1,0 +1,46 @@
+flowchart TB
+    APP["App.tsx<br/><i>Root State Manager</i>"]
+
+    APP --> SPLASH["SplashScreen<br/><i>6-phase boot animation</i>"]
+    APP --> WALK["Walkthrough<br/><i>6-step guided tour</i>"]
+    APP --> HEADER["Header<br/><i>Logo - Status - Time Saved</i>"]
+    APP --> HERO["HeroBanner<br/><i>Value proposition</i>"]
+    APP --> SWITCHER["AppSwitcher<br/><i>5 app profiles</i>"]
+    APP --> TOAST["ToastContainer<br/><i>Notifications</i>"]
+
+    APP --> COL1["Left Column"]
+    APP --> COL2["Center Column"]
+    APP --> COL3["Right Column"]
+
+    COL1 --> GRID["ConsoleGrid"]
+    GRID --> BTN1["ConsoleButton x9<br/><i>Hover tooltips</i>"]
+    COL1 --> MACRO["MacroChain<br/><i>4-step workflow</i>"]
+
+    COL2 --> OUTPUT["OutputPreview<br/><i>Typewriter effect<br/>375 chars/sec</i>"]
+
+    COL3 --> DIAL["Dial<br/><i>SVG - Drag - Scroll</i>"]
+    COL3 --> ARING["ActionsRing<br/><i>Spin animation</i>"]
+
+    subgraph STATE["Centralized State (useState)"]
+        S1["activeApp"]
+        S2["activeButton"]
+        S3["dialValue (0-100)"]
+        S4["actionsCount"]
+    end
+
+    SWITCHER -.->|"sets"| S1
+    BTN1 -.->|"sets"| S2
+    DIAL -.->|"sets"| S3
+    MACRO -.->|"increments"| S4
+    ARING -.->|"increments"| S4
+
+    S1 -.->|"drives"| GRID
+    S1 -.->|"drives"| OUTPUT
+    S2 -.->|"drives"| OUTPUT
+    S3 -.->|"drives"| OUTPUT
+
+    style APP fill:#6C63FF,stroke:#6C63FF,color:#fff
+    style STATE fill:#0a0a14,stroke:#00D4AA,stroke-width:2px,color:#e2e8f0
+    style COL1 fill:#1a1a2e,stroke:#334155,color:#94a3b8
+    style COL2 fill:#1a1a2e,stroke:#334155,color:#94a3b8
+    style COL3 fill:#1a1a2e,stroke:#334155,color:#94a3b8

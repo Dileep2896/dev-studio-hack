@@ -1,0 +1,18 @@
+sequenceDiagram
+    participant User
+    participant Console as MX Creative Console
+    participant Options as Logi Options+
+    participant Plugin as Actions SDK Plugin
+    participant Router as AI Router (Node.js)
+    participant AI as AI Model
+
+    User->>Console: Presses "Refactor" button
+    Console->>Options: Button event
+    Options->>Plugin: Action trigger (app=vscode, btn=0)
+    Plugin->>Plugin: Read dial value (e.g., 72 = Maximum)
+    Plugin->>Router: WebSocket request {action, app, detail_level}
+    Router->>AI: Prompt with context + detail constraint
+    AI-->>Router: Structured response
+    Router-->>Plugin: Formatted result
+    Plugin-->>Console: Display on LCD / overlay
+    Console-->>User: AI output appears instantly
